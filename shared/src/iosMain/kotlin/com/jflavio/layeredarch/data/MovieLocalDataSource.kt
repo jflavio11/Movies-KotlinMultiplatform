@@ -1,4 +1,6 @@
-package com.jflavio.layeredarch.domain
+package com.jflavio.layeredarch.data
+
+import com.jflavio.layeredarch.domain.Movie
 
 /**
  * MovieLocalDataSource
@@ -8,7 +10,7 @@ package com.jflavio.layeredarch.domain
  */
 actual class MovieLocalDataSource {
     actual suspend fun saveMovies(list: List<Movie>) {
-        
+
     }
 
     actual suspend fun getMovies(): List<Movie> {

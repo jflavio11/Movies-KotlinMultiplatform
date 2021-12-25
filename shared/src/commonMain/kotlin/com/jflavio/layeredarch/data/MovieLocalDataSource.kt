@@ -1,4 +1,6 @@
-package com.jflavio.layeredarch.domain
+package com.jflavio.layeredarch.data
+
+import com.jflavio.layeredarch.domain.Movie
 
 /**
  * MovieLocalDataSource
