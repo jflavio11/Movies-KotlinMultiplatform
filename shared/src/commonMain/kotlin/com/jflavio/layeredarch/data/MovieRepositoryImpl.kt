@@ -1,8 +1,8 @@
 package com.jflavio.layeredarch.data
 
 import com.jflavio.layeredarch.domain.Movie
-import com.jflavio.layeredarch.data.MovieLocalDataSource
-import com.jflavio.layeredarch.data.MovieRemoteDataSource
+import com.jflavio.layeredarch.data.local.MovieLocalDataSource
+import com.jflavio.layeredarch.data.remote.MovieRemoteDataSource
 import com.jflavio.layeredarch.domain.MovieRepository
 
 /**

@@ -1,18 +1,14 @@
-package com.jflavio.layeredarch.data
+package com.jflavio.layeredarch.data.remote
 
 import com.jflavio.layeredarch.domain.Movie
 
 /**
- * MovieLocalDataSource
+ * MovieRemoteDataSource
  *
  * @author Jose Flavio - jflavio90@gmail.com
  * @since  24/12/2021
  */
-actual class MovieLocalDataSource {
-    actual suspend fun saveMovies(list: List<Movie>) {
-
-    }
-
+actual class MovieRemoteDataSource {
     actual suspend fun getMovies(): List<Movie> {
         return listOf(
             Movie(id = "123", name = "Spirderman 1", durationInMinutes = 161, posterUrl = ""),

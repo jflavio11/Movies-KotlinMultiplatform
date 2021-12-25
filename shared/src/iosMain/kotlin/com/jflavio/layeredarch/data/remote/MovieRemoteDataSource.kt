@@ -1,4 +1,4 @@
-package com.jflavio.layeredarch.data
+package com.jflavio.layeredarch.data.remote
 
 import com.jflavio.layeredarch.domain.Movie
 
