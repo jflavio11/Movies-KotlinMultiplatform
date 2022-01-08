@@ -1,4 +1,4 @@
-package com.jflavio.layeredarch.domain
+package com.jflavio.layeredarch.data.local
 
 import android.content.Context
 import androidx.room.Database
@@ -22,18 +22,13 @@ abstract class MoviesDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 }
 
-object DatabaseInjector {
+class DatabaseInjector(context: Context) {
 
-    private var db: MoviesDatabase? = null
-
-    fun getDb(context: Context): MoviesDatabase {
-        if (db == null) {
-            db = Room.databaseBuilder(
-                context,
-                MoviesDatabase::class.java, "movies-database"
-            ).build()
-        }
-        return db!!
+    val db: MoviesDatabase by lazy {
+        Room.databaseBuilder(
+            context,
+            MoviesDatabase::class.java, "movies-database"
+        ).build()
     }
 
 }

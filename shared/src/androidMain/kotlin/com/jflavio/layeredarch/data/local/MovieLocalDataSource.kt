@@ -1,7 +1,6 @@
 package com.jflavio.layeredarch.data.local
 
 import com.jflavio.layeredarch.data.entity.MovieEntity
-import com.jflavio.layeredarch.data.local.dao.MovieDao
 import com.jflavio.layeredarch.domain.Movie
 
 /**
@@ -11,10 +10,10 @@ import com.jflavio.layeredarch.domain.Movie
  * @since  24/12/2021
  */
 actual class MovieLocalDataSource(
-    private val movieDao: MovieDao
+    private val db: MoviesDatabase
 ) {
     actual suspend fun saveMovies(list: List<Movie>) {
-        movieDao.insertAll(
+        db.movieDao().insertAll(
             list.map {
                 MovieEntity(
                     id = it.id,
@@ -27,7 +26,7 @@ actual class MovieLocalDataSource(
     }
 
     actual suspend fun getMovies(): List<Movie> {
-        return movieDao.getAllMovies().map {
+        return db.movieDao().getAllMovies().map {
             Movie(
                 id = it.id,
                 name = it.name,

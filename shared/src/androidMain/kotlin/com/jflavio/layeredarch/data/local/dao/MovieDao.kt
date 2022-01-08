@@ -17,5 +17,5 @@ interface MovieDao {
     fun getAllMovies(): List<MovieEntity>
 
     @Insert
-    fun insertAll(vararg movies: List<MovieEntity>)
+    fun insertAll(movies: List<MovieEntity>)
 }

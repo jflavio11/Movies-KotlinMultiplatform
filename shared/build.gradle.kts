@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    kotlin("kapt")
 }
 
 kotlin {
@@ -17,14 +18,35 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+
+        val coroutineVersion = "1.6.0-native-mt"
+
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion") {
+                    version { strictly(coroutineVersion) }
+                }
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            val roomVersion = "2.3.0"
+            dependencies {
+                implementation("androidx.room:room-runtime:$roomVersion")
+                configurations.getByName("kapt").dependencies.add(
+                    org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency(
+                        "androidx.room",
+                        "room-compiler",
+                        roomVersion
+                    )
+                )
+            }
+        }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -58,11 +80,5 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 31
-    }
-
-    val roomVersion = "2.3.0"
-    dependencies {
-        implementation("androidx.room:room-runtime:$roomVersion")
-        annotationProcessor("androidx.room:room-compiler:$roomVersion")
     }
 }

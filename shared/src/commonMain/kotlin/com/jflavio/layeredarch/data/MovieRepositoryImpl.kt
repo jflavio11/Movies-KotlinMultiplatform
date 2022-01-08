@@ -1,9 +1,11 @@
 package com.jflavio.layeredarch.data
 
-import com.jflavio.layeredarch.domain.Movie
+import com.jflavio.layeredarch.DispatcherProvider
 import com.jflavio.layeredarch.data.local.MovieLocalDataSource
 import com.jflavio.layeredarch.data.remote.MovieRemoteDataSource
+import com.jflavio.layeredarch.domain.Movie
 import com.jflavio.layeredarch.domain.MovieRepository
+import kotlinx.coroutines.withContext
 
 /**
  * MovieRepositoryImpl
@@ -13,16 +15,19 @@ import com.jflavio.layeredarch.domain.MovieRepository
  */
 class MovieRepositoryImpl(
     private val localDataSource: MovieLocalDataSource,
-    private val remoteDataSource: MovieRemoteDataSource
+    private val remoteDataSource: MovieRemoteDataSource,
+    private val dispatcherProvider: DispatcherProvider
 ) : MovieRepository {
 
     override suspend fun getMovies(): List<Movie> {
-        var localMovies = localDataSource.getMovies()
-        if (localMovies.isEmpty()) {
-            localMovies = remoteDataSource.getMovies()
+        return withContext(dispatcherProvider.io) {
+            var localMovies = localDataSource.getMovies()
+            if (localMovies.isEmpty()) {
+                localMovies = remoteDataSource.getMovies()
+            }
+            localDataSource.saveMovies(localMovies)
+            localMovies
         }
-        localDataSource.saveMovies(localMovies)
-        return localMovies
     }
 
 }
