@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     kotlin("kapt")
+    id("com.squareup.sqldelight")
 }
 
 kotlin {
@@ -20,12 +21,15 @@ kotlin {
     sourceSets {
 
         val coroutineVersion = "1.6.0-native-mt"
+        val sql_delight_version = "1.5.3"
 
+        // region common
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion") {
                     version { strictly(coroutineVersion) }
                 }
+                //implementation("com.squareup.sqldelight:runtime:$sql_delight_version")
             }
         }
         val commonTest by getting {
@@ -34,17 +38,12 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
+        //endregion
+
+        // region android
         val androidMain by getting {
-            val roomVersion = "2.3.0"
             dependencies {
-                implementation("androidx.room:room-runtime:$roomVersion")
-                configurations.getByName("kapt").dependencies.add(
-                    org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency(
-                        "androidx.room",
-                        "room-compiler",
-                        roomVersion
-                    )
-                )
+                implementation("com.squareup.sqldelight:android-driver:$sql_delight_version")
             }
         }
         val androidTest by getting {
@@ -53,6 +52,9 @@ kotlin {
                 implementation("junit:junit:4.13.2")
             }
         }
+        // endregion
+
+        // region iOS
         val iosX64Main by getting
         val iosArm64Main by getting
         //val iosSimulatorArm64Main by getting
@@ -61,6 +63,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             //iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation("com.squareup.sqldelight:native-driver:$sql_delight_version")
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
@@ -71,7 +76,15 @@ kotlin {
             iosArm64Test.dependsOn(this)
             //iosSimulatorArm64Test.dependsOn(this)
         }
+        // endregion
     }
+
+    sqldelight {
+        database("MoviesDb") {
+            packageName = "com.jflavio.layeredarch"
+        }
+    }
+
 }
 
 android {

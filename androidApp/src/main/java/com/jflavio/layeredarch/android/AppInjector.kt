@@ -3,14 +3,15 @@ package com.jflavio.layeredarch.android
 import android.content.Context
 import com.jflavio.layeredarch.DispatcherProvider
 import com.jflavio.layeredarch.DispatcherProviderImpl
+import com.jflavio.layeredarch.MoviesDb
 import com.jflavio.layeredarch.data.MovieRepositoryImpl
+import com.jflavio.layeredarch.data.local.DatabaseDriverFactory
 import com.jflavio.layeredarch.data.local.MovieLocalDataSource
+import com.jflavio.layeredarch.data.local.createDatabase
 import com.jflavio.layeredarch.data.remote.MovieRemoteDataSource
-import com.jflavio.layeredarch.data.local.DatabaseInjector
 import com.jflavio.layeredarch.domain.GetMoviesInteractor
 import com.jflavio.layeredarch.domain.GetMoviesInteractorImpl
 import com.jflavio.layeredarch.domain.MovieRepository
-import com.jflavio.layeredarch.data.local.MoviesDatabase
 
 /**
  * AppInjector
@@ -19,18 +20,18 @@ import com.jflavio.layeredarch.data.local.MoviesDatabase
  * @since  25/12/2021
  */
 interface AppInjector {
-    val db: MoviesDatabase
+    val db: MoviesDb
     val getMoviesInteractor: GetMoviesInteractor
     val movieRepository: MovieRepository
     val movieLocalDataSource: MovieLocalDataSource
     val movieRemoteDataSource: MovieRemoteDataSource
-    val dispatcherProvider : DispatcherProvider
+    val dispatcherProvider: DispatcherProvider
 }
 
 class AppInjectorImpl(private val context: Context) : AppInjector {
 
-    override val db: MoviesDatabase by lazy {
-        DatabaseInjector(context).db
+    override val db: MoviesDb by lazy {
+        createDatabase(DatabaseDriverFactory(context))
     }
     override val getMoviesInteractor: GetMoviesInteractor by lazy {
         GetMoviesInteractorImpl(movieRepository)
