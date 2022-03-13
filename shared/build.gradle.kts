@@ -29,7 +29,6 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion") {
                     version { strictly(coroutineVersion) }
                 }
-                //implementation("com.squareup.sqldelight:runtime:$sql_delight_version")
             }
         }
         val commonTest by getting {
