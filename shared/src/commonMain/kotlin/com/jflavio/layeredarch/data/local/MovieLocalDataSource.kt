@@ -20,7 +20,7 @@ class MovieLocalDataSource(private val moviesDb: MoviesDb) {
             Movie(
                 id = it.id.toString(),
                 name = it.name,
-                durationInMinutes = it.duration_in_minutes.toInt(),
+                overview = it.duration_in_minutes.toString(),
                 posterUrl = it.poster_url
             )
         }

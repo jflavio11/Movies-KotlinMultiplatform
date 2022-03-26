@@ -5,6 +5,6 @@ CREATE TABLE MOVIE_TBL (
     poster_url TEXT NOT NULL
 );
 
-INSERT INTO MOVIE_TBL VALUES (1, "Harry Potter", 150, "https://google.com/text.png");
+--INSERT INTO MOVIE_TBL VALUES (1, "Harry Potter", 150, "https://google.com/text.png");
 
 selectAll: SELECT * FROM MOVIE_TBL;
