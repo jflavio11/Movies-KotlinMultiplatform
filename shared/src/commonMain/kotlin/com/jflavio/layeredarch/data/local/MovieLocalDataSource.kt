@@ -11,6 +11,14 @@ import com.jflavio.layeredarch.domain.Movie
  */
 class MovieLocalDataSource(private val moviesDb: MoviesDb) {
 
+    suspend fun getLastUpdate(): Long {
+        return moviesDb.updatesTableQueries.getLastUpdate("movies").executeAsOne().time
+    }
+
+    fun updateLastUpdate(timestamp: Long) {
+        moviesDb.updatesTableQueries.insertLastUpdate(timestamp, "movies")
+    }
+
     suspend fun saveMovies(list: List<Movie>) {
 
     }

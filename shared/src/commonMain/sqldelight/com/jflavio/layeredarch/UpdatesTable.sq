@@ -1,0 +1,10 @@
+CREATE TABLE UPDATES_TBL (
+    time INTEGER NOT NULL,
+    tblname TEXT NOT NULL,
+    CONSTRAINT pk PRIMARY KEY (tblname)
+);
+
+getLastUpdate: SELECT * FROM UPDATES_TBL WHERE tblname = :tableName;
+insertLastUpdate {
+    INSERT OR REPLACE INTO UPDATES_TBL VALUES (:time, :tableName);
+}

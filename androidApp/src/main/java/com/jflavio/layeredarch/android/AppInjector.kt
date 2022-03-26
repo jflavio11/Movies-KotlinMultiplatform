@@ -5,6 +5,7 @@ import com.jflavio.layeredarch.DispatcherProvider
 import com.jflavio.layeredarch.DispatcherProviderImpl
 import com.jflavio.layeredarch.MoviesDb
 import com.jflavio.layeredarch.data.MovieRepositoryImpl
+import com.jflavio.layeredarch.data.TimeProvider
 import com.jflavio.layeredarch.data.local.DatabaseDriverFactory
 import com.jflavio.layeredarch.data.local.MovieLocalDataSource
 import com.jflavio.layeredarch.data.local.createDatabase
@@ -26,6 +27,7 @@ interface AppInjector {
     val movieLocalDataSource: MovieLocalDataSource
     val movieRemoteDataSource: MovieRemoteDataSource
     val dispatcherProvider: DispatcherProvider
+    val timeProvider: TimeProvider
 }
 
 class AppInjectorImpl(private val context: Context) : AppInjector {
@@ -38,7 +40,7 @@ class AppInjectorImpl(private val context: Context) : AppInjector {
     }
 
     override val movieRepository: MovieRepository by lazy {
-        MovieRepositoryImpl(movieLocalDataSource, movieRemoteDataSource, dispatcherProvider)
+        MovieRepositoryImpl(movieLocalDataSource, movieRemoteDataSource, timeProvider, dispatcherProvider)
     }
     override val movieLocalDataSource: MovieLocalDataSource by lazy {
         MovieLocalDataSource(db)
@@ -49,6 +51,9 @@ class AppInjectorImpl(private val context: Context) : AppInjector {
     }
     override val dispatcherProvider: DispatcherProvider by lazy {
         DispatcherProviderImpl()
+    }
+    override val timeProvider: TimeProvider by lazy {
+        TimeProvider()
     }
 
 }
