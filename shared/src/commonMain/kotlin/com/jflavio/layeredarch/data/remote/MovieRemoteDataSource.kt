@@ -8,10 +8,12 @@ import com.jflavio.layeredarch.domain.Movie
  * @author Jose Flavio - jflavio90@gmail.com
  * @since  13/03/2022
  */
-class MovieRemoteDataSource {
+class MovieRemoteDataSource(private val api: MoviesApi = MoviesApi()) {
 
     suspend fun getMovies(): List<Movie> {
-        return emptyList()
+        return api.getMovies().results.map {
+            Movie(id = it.id.toString(), name = it.title, overview = it.overview, posterUrl = it.poster_path)
+        }
     }
 
 }

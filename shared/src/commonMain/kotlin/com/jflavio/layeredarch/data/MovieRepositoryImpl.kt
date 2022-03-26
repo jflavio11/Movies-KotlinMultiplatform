@@ -16,16 +16,18 @@ import kotlinx.coroutines.withContext
 class MovieRepositoryImpl(
     private val localDataSource: MovieLocalDataSource,
     private val remoteDataSource: MovieRemoteDataSource,
+    private val timeProvider: TimeProvider,
     private val dispatcherProvider: DispatcherProvider
 ) : MovieRepository {
 
     override suspend fun getMovies(): List<Movie> {
         return withContext(dispatcherProvider.io) {
             var localMovies = localDataSource.getMovies()
-            if (localMovies.isEmpty()) {
+            if (localMovies.isEmpty() || timeProvider.timestamp - localDataSource.getLastUpdate() > 60 * 60 * 1000) {
                 localMovies = remoteDataSource.getMovies()
             }
             localDataSource.saveMovies(localMovies)
+            localDataSource.updateLastUpdate(timeProvider.timestamp)
             localMovies
         }
     }

@@ -1,13 +1,16 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     kotlin("kapt")
     id("com.squareup.sqldelight")
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 kotlin {
     android()
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -22,6 +25,7 @@ kotlin {
 
         val coroutineVersion = "1.6.0-native-mt"
         val sql_delight_version = "1.5.3"
+        val ktor_version = "1.6.8"
 
         // region common
         val commonMain by getting {
@@ -29,7 +33,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion") {
                     version { strictly(coroutineVersion) }
                 }
-                //implementation("com.squareup.sqldelight:runtime:$sql_delight_version")
+                implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("io.ktor:ktor-client-serialization:$ktor_version")
             }
         }
         val commonTest by getting {
@@ -44,6 +49,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.squareup.sqldelight:android-driver:$sql_delight_version")
+                implementation("io.ktor:ktor-client-android:$ktor_version")
+                implementation("dev.icerock.moko:resources-compose:0.19.0")
             }
         }
         val androidTest by getting {
@@ -65,6 +72,7 @@ kotlin {
             //iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("com.squareup.sqldelight:native-driver:$sql_delight_version")
+                implementation("io.ktor:ktor-client-ios:$ktor_version")
             }
         }
         val iosX64Test by getting
@@ -94,4 +102,19 @@ android {
         minSdk = 21
         targetSdk = 31
     }
+
+    val props = Properties()
+    file("keys.properties").inputStream().use {
+        props.load(it)
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("String", "MOVIES_DB_API_KEY", "\"${props["MOVIES_DB_API_KEY"].toString()}\"")
+        }
+        release {
+            buildConfigField("String", "MOVIES_DB_API_KEY", "\"${props["MOVIES_DB_API_KEY"].toString()}\"")
+        }
+    }
+
 }

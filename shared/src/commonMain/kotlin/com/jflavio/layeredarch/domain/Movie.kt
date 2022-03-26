@@ -9,6 +9,6 @@ package com.jflavio.layeredarch.domain
 data class Movie(
     val id: String,
     val name: String,
-    val durationInMinutes: Int,
+    val overview: String,
     val posterUrl: String
 )
