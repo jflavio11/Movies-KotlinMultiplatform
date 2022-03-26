@@ -19,16 +19,23 @@ class MovieLocalDataSource(private val moviesDb: MoviesDb) {
         moviesDb.updatesTableQueries.insertLastUpdate(timestamp, "movies")
     }
 
-    suspend fun saveMovies(list: List<Movie>) {
-
+    fun saveMovies(list: List<Movie>) {
+        list.forEach { movie ->
+            moviesDb.movieTableQueries.insert(
+                id = movie.id.toLong(),
+                name = movie.name,
+                poster_url = movie.posterUrl,
+                overview = movie.overview
+            )
+        }
     }
 
-    suspend fun getMovies(): List<Movie> {
+    fun getMovies(): List<Movie> {
         return moviesDb.movieTableQueries.selectAll().executeAsList().map {
             Movie(
                 id = it.id.toString(),
                 name = it.name,
-                overview = it.duration_in_minutes.toString(),
+                overview = it.overview,
                 posterUrl = it.poster_url
             )
         }

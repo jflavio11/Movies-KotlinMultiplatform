@@ -1,8 +1,11 @@
 CREATE TABLE MOVIE_TBL (
     id INTEGER NOT NULL,
     name TEXT NOT NULL,
-    duration_in_minutes INTEGER NOT NULL,
+    overview TEXT NOT NULL,
     poster_url TEXT NOT NULL
 );
 
 selectAll: SELECT * FROM MOVIE_TBL;
+insert {
+    INSERT OR REPLACE INTO MOVIE_TBL VALUES (?, ?, ?, ?);
+}
