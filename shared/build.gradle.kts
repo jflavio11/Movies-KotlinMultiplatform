@@ -30,9 +30,7 @@ kotlin {
         // region common
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion") {
-                    version { strictly(coroutineVersion) }
-                }
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-serialization:$ktor_version")
             }
@@ -50,7 +48,6 @@ kotlin {
             dependencies {
                 implementation("com.squareup.sqldelight:android-driver:$sql_delight_version")
                 implementation("io.ktor:ktor-client-android:$ktor_version")
-                implementation("dev.icerock.moko:resources-compose:0.19.0")
             }
         }
         val androidTest by getting {

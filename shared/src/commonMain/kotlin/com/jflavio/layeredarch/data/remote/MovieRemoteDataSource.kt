@@ -12,7 +12,12 @@ class MovieRemoteDataSource(private val api: MoviesApi = MoviesApi()) {
 
     suspend fun getMovies(): List<Movie> {
         return api.getMovies().results.map {
-            Movie(id = it.id.toString(), name = it.title, overview = it.overview, posterUrl = it.poster_path)
+            Movie(
+                id = it.id.toString(),
+                name = it.title,
+                overview = it.overview,
+                posterUrl = "https://image.tmdb.org/t/p/w300".plus(it.poster_path)
+            )
         }
     }
 
