@@ -23,6 +23,7 @@ class MovieRepositoryImpl(
     override suspend fun getMovies(): List<Movie> {
         return withContext(dispatcherProvider.io) {
             var localMovies = localDataSource.getMovies()
+            // TODO define the update of local data by an Update Policy: another business logic class
             if (localMovies.isEmpty() || timeProvider.timestamp - localDataSource.getLastUpdate() > 60 * 60 * 1000) {
                 localMovies = remoteDataSource.getMovies()
             }
