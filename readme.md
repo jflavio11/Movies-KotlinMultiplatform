@@ -3,6 +3,7 @@
 This project was created by a series of posts you can find on my blog [https://jflavio.com](https://jflavio.com)
 
 The domain and data layers are both inside the `shared` module of the Kotlin Multiplatform project. The final architecture looks like this:
+
 <img src="https://jflavio.com/wp-content/uploads/2022/03/kmm-project.drawio-4.png" align="center" alt="Image of architecture" width="500">
 
 ---
