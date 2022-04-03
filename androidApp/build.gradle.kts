@@ -50,4 +50,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.github.skydoves:landscapist-coil:1.5.0")
+    implementation("com.airbnb.android:lottie-compose:5.0.3")
 }
