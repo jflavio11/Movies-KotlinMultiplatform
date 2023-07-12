@@ -39,7 +39,7 @@ data class MainUiState(
 )
 
 class MainViewModelFactory(private val getMoviesInteractor: GetMoviesInteractor) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainViewModel(getMoviesInteractor) as T
     }
 }

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     defaultConfig {
         applicationId = "com.jflavio.layeredarch.android"
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
     }
@@ -18,7 +18,6 @@ android {
         }
     }
     buildFeatures {
-        // Enables Jetpack Compose for this module
         compose = true
     }
 
@@ -32,23 +31,24 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.0-rc02"
+        kotlinCompilerExtensionVersion = "1.4.6"
     }
 }
 
 dependencies {
     implementation(project(":shared"))
+    implementation(platform("androidx.compose:compose-bom:2023.05.01"))
+    implementation("androidx.compose.foundation:foundation")
     // Integration with activities
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.activity:activity-compose")
     // Compose Material Design
-    implementation("androidx.compose.material:material:1.1.1")
+    implementation("androidx.compose.material:material")
     // Animations
-    implementation("androidx.compose.animation:animation:1.1.1")
+    implementation("androidx.compose.animation:animation")
     // Tooling support (Previews, etc.)
-    implementation("androidx.compose.ui:ui-tooling:1.1.1")
+    implementation("androidx.compose.ui:ui-tooling")
     // Integration with ViewModels
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.github.skydoves:landscapist-coil:1.5.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose")
+    implementation("com.github.skydoves:landscapist-coil:2.1.2")
     implementation("com.airbnb.android:lottie-compose:5.0.3")
 }

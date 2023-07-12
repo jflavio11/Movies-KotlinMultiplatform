@@ -1,9 +1,8 @@
 package com.jflavio.layeredarch.android
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -41,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
@@ -48,14 +48,14 @@ import com.jflavio.layeredarch.domain.Movie
 import com.skydoves.landscapist.coil.CoilImage
 
 @ExperimentalFoundationApi
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val appInjector: AppInjector = (application as MoviesApp).appInjector
-            val viewModel = viewModels<MainViewModel> {
-                MainViewModelFactory(appInjector.getMoviesInteractor)
-            }.value
+            val viewModel = viewModel<MainViewModel>(
+                factory = MainViewModelFactory(appInjector.getMoviesInteractor)
+            )
             MoviesAppTheme {
                 Surface {
                     MainScreen(viewModel)
@@ -92,7 +92,8 @@ fun MainScreen(mainViewModel: MainViewModel) {
 fun BoxScope.MoviesListScreen(uiState: MainUiState) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp), horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             stickyHeader {
                 Text(
@@ -143,7 +144,7 @@ fun MovieItem(movie: Movie) {
 @Composable
 fun MoviePic(modifier: Modifier = Modifier, picUrl: String) {
     CoilImage(
-        imageModel = picUrl,
+        imageModel = { picUrl },
         modifier = modifier
             .height(200.dp)
             .width(150.dp)

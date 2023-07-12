@@ -1,8 +1,8 @@
 package com.jflavio.layeredarch.data.local
 
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.native.NativeSqliteDriver
 import com.jflavio.layeredarch.MoviesDb
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 
 /**
  * DatabaseDriverFactory

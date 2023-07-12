@@ -1,9 +1,9 @@
 package com.jflavio.layeredarch.data.local
 
 import android.content.Context
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.jflavio.layeredarch.MoviesDb
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
 
 /**
  * DatabaseDriverFactory

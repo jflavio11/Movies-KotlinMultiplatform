@@ -4,7 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     kotlin("kapt")
-    id("com.squareup.sqldelight")
+    id("app.cash.sqldelight") version "2.0.0-rc02"
     kotlin("plugin.serialization") version "1.6.10"
 }
 
@@ -23,14 +23,13 @@ kotlin {
 
     sourceSets {
 
-        val coroutineVersion = "1.6.0-native-mt"
-        val sql_delight_version = "1.5.3"
+        val sql_delight_version = "1.5.5"
         val ktor_version = "1.6.8"
 
         // region common
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-serialization:$ktor_version")
             }
@@ -46,7 +45,7 @@ kotlin {
         // region android
         val androidMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:android-driver:$sql_delight_version")
+                implementation("app.cash.sqldelight:android-driver:2.0.0-rc02")
                 implementation("io.ktor:ktor-client-android:$ktor_version")
             }
         }
@@ -68,7 +67,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             //iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("com.squareup.sqldelight:native-driver:$sql_delight_version")
+                implementation("app.cash.sqldelight:native-driver:2.0.0-rc02")
                 implementation("io.ktor:ktor-client-ios:$ktor_version")
             }
         }
@@ -85,19 +84,21 @@ kotlin {
     }
 
     sqldelight {
-        database("MoviesDb") {
-            packageName = "com.jflavio.layeredarch"
+        databases {
+            create("MoviesDb") {
+                packageName.set("com.jflavio.layeredarch")
+            }
         }
     }
 
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 33
     }
 
     val props = Properties()
