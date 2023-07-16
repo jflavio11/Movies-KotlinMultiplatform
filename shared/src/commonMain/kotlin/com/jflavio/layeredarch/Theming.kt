@@ -1,4 +1,4 @@
-package com.jflavio.layeredarch.android
+package com.jflavio.layeredarch
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
