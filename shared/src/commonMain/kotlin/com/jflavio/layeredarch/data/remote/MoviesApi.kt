@@ -2,9 +2,12 @@ package com.jflavio.layeredarch.data.remote
 
 import com.jflavio.layeredarch.BuildKonfig
 import io.ktor.client.HttpClient
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.call.body
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+
 
 /**
  * MoviesApi
@@ -15,9 +18,9 @@ import io.ktor.client.request.get
 
 class MoviesApi {
 
-    private val httpClient = HttpClient {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+    private val httpClient = HttpClient() {
+        install(ContentNegotiation) {
+            json(Json {
                 prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
@@ -26,7 +29,7 @@ class MoviesApi {
     }
 
     suspend fun getMovies(): MoviesListResponse {
-        return httpClient.get(MOVIES_LIST_ENDPOINT)
+        return httpClient.get(MOVIES_LIST_ENDPOINT).body()
     }
 
     companion object {

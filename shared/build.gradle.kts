@@ -25,15 +25,15 @@ kotlin {
 
     sourceSets {
 
-        val sql_delight_version = "1.5.5"
-        val ktor_version = "1.6.8"
+        val ktor_version = "2.3.2"
 
         // region common
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("io.ktor:ktor-client-serialization:$ktor_version")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
             }
         }
         val commonTest by getting {
