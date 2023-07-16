@@ -1,11 +1,10 @@
 ### Layered Architecture in a Kotlin Multiplatform project
 
 This project was created by a series of posts you can find on my blog [https://jflavio.com](https://jflavio.com)
+
 Follow the series here 👉 [https://jflavio.com/categories/kmm-serie/](https://jflavio.com/categories/kmm-serie/)
 
-The domain and data layers are both inside the `shared` module of the Kotlin Multiplatform project. The final architecture looks like this:
-
-<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/1*DqpOyFM5N59EbAWwIPCCag.png" align="center" alt="Image of architecture" width="500">
+However, this branch is implementing Compose Multiplatform, so the presentation layer (UI and ViewModels) are not implemented for each platform anymore 😉.
 
 ---
 
@@ -26,17 +25,19 @@ Here we only have an implementation of the database driver interface defined in 
 Here we only have an implementation of the database driver interface defined in the `commonMain` package but for the iOS project.
 
 ##### commonMain
-Here is where magic happens. We define the domain and data layers inside this package. By the way, we support Kotlin Coroutines 😉.
+Here is where magic happens. We define the presentation, domain and data layers inside this package. By the way, we support Kotlin Coroutines 😉.
+
+Here's the app running on iPhone, invoking the Movies DB API thanks to KTOR.
+<img src="https://github.com/jflavio11/LayeredKotlinMultiplatform/blob/composeMultiplatform/images/ios-compose-multiplatform.png?raw=true" align="center" width="360" alt="Screenshot of iPhone emulator running the app">
+
+**Note: Images are not shown since there's no a stable library for it. There's Kamel, but still investigating.**
 
 ---
 
 #### Android module
-Implements the MVVM pattern using Jetpack Compose. The ViewModels depends on the interactors interfaces that are defined in the domain layer inside the `shared` module.
-
-<img src="https://user-images.githubusercontent.com/17575387/161411178-de4d4b56-5132-488c-9859-183fa6156171.png" align="center" width="360" >
+Only has the `MovieActivity` Kotlin file which invokes the Compose Multiplatform UI. 
 
 ---
 
-#### iOS module
-
-Implements the MVVM pattern using SwiftUI. The ViewModels depends on the interactors interfaces that are defined in the domain layer inside the `shared` module (currently in progress).
+#### iOS App module
+Has the `ComposeView.swift` which invokes the Compose Multiplatform UI.
