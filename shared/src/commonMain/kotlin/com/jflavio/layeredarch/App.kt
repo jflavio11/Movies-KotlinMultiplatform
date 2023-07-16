@@ -57,6 +57,7 @@ fun MainScreen(mainViewModel: MainViewModel) {
         mainViewModel.getMovies()
     }
     Box(modifier = Modifier.fillMaxSize()) {
+        // Lottie seems not to have support yet https://github.com/JetBrains/compose-multiplatform/issues/362
         //val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.movie_loading))
         if (!mainViewModel.uiState.loading) {
             MoviesListScreen(mainViewModel.uiState)
@@ -128,6 +129,7 @@ fun MovieItem(movie: Movie) {
 
 @Composable
 fun MoviePic(modifier: Modifier = Modifier, picUrl: String) {
+    // learn about https://github.com/Kamel-Media/Kamel#multi-platform
 //    CoilImage(
 //        imageModel = { picUrl },
 //        modifier = modifier
