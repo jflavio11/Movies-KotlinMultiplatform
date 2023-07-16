@@ -6,6 +6,7 @@ plugins {
     kotlin("kapt")
     id("app.cash.sqldelight") version "2.0.0-rc02"
     kotlin("plugin.serialization") version "1.6.10"
+    id("org.jetbrains.compose")
 }
 
 kotlin {
@@ -18,20 +19,30 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+            isStatic = true
         }
     }
 
     sourceSets {
 
-        val sql_delight_version = "1.5.5"
-        val ktor_version = "1.6.8"
+        val sql_delight_version = ".0.0-rc02"
+        val ktor_version = "2.3.2"
 
         // region common
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
                 implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("io.ktor:ktor-client-serialization:$ktor_version")
+                //implementation("io.ktor:ktor-client-serialization:$ktor_version")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+
+                // compose multiplatform
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
             }
         }
         val commonTest by getting {
@@ -95,6 +106,7 @@ kotlin {
 
 android {
     compileSdk = 33
+    namespace = "com.jflavio.layeredarch.android"
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
@@ -104,6 +116,13 @@ android {
     val props = Properties()
     file("keys.properties").inputStream().use {
         props.load(it)
+    }
+
+    buildFeatures {
+        buildConfig = true
+        // or add android.defaults.buildfeatures.buildconfig=true in gradle.properties
+        // however, it will be removed from gradle.properties from AGP 8.0
+        // https://cs.android.com/android-studio/platform/tools/base/+/0bc1c23297760643b03e8cfd8acc52c007a99cd6
     }
 
     buildTypes {

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("org.jetbrains.compose")
 }
 
 android {
@@ -33,6 +34,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.6"
     }
+    namespace = "com.jflavio.layeredarch.android"
 }
 
 dependencies {
