@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.konan.properties.Properties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     kotlin("multiplatform")
@@ -6,6 +7,7 @@ plugins {
     kotlin("kapt")
     id("app.cash.sqldelight") version "2.0.0-rc02"
     kotlin("plugin.serialization") version "1.6.10"
+    id("com.codingfeline.buildkonfig")
 }
 
 kotlin {
@@ -93,26 +95,25 @@ kotlin {
 
 }
 
-android {
-    compileSdk = 33
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = 21
-        targetSdk = 33
-    }
+buildkonfig {
+    packageName = "com.jflavio.layeredarch"
+    // objectName = "YourAwesomeConfig"
+    // exposeObjectWithName = "YourAwesomePublicConfig"
+
 
     val props = Properties()
     file("keys.properties").inputStream().use {
         props.load(it)
     }
-
-    buildTypes {
-        debug {
-            buildConfigField("String", "MOVIES_DB_API_KEY", "\"${props["MOVIES_DB_API_KEY"].toString()}\"")
-        }
-        release {
-            buildConfigField("String", "MOVIES_DB_API_KEY", "\"${props["MOVIES_DB_API_KEY"].toString()}\"")
-        }
+    defaultConfigs {
+        buildConfigField(STRING, "MOVIES_DB_API_KEY", props["MOVIES_DB_API_KEY"].toString())
     }
+}
 
+android {
+    compileSdk = 33
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = 21
+    }
 }

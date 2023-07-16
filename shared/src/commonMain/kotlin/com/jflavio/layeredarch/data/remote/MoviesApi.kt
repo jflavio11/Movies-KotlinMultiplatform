@@ -1,6 +1,6 @@
 package com.jflavio.layeredarch.data.remote
 
-import com.jflavio.layeredarch.data.PropertiesProvider
+import com.jflavio.layeredarch.BuildKonfig
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -30,7 +30,7 @@ class MoviesApi {
     }
 
     companion object {
-        private val MOVIES_LIST_ENDPOINT = "https://api.themoviedb.org/3/movie/popular?api_key=${PropertiesProvider().getApiKey()}"
+        private val MOVIES_LIST_ENDPOINT = "https://api.themoviedb.org/3/movie/popular?api_key=${BuildKonfig.MOVIES_DB_API_KEY}"
 
     }
 }
