@@ -1,6 +1,7 @@
 package com.jflavio.layeredarch.android
 
 import android.app.Application
+import com.jflavio.layeredarch.AppInjector
 
 /**
  * MoviesApp
@@ -14,6 +15,6 @@ class MoviesApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        this.appInjector = AppInjectorImpl(this)
+        this.appInjector = AppInjector(this)
     }
 }

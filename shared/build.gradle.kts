@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.konan.properties.Properties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     kotlin("multiplatform")
@@ -7,6 +8,7 @@ plugins {
     id("app.cash.sqldelight") version "2.0.0-rc02"
     kotlin("plugin.serialization") version "1.6.10"
     id("org.jetbrains.compose")
+    id("com.codingfeline.buildkonfig")
 }
 
 kotlin {
@@ -104,19 +106,29 @@ kotlin {
 
 }
 
+buildkonfig {
+    packageName = "com.jflavio.layeredarch"
+    // objectName = "YourAwesomeConfig"
+    // exposeObjectWithName = "YourAwesomePublicConfig"
+
+
+    val props = Properties()
+    file("keys.properties").inputStream().use {
+        props.load(it)
+    }
+    defaultConfigs {
+        buildConfigField(STRING, "MOVIES_DB_API_KEY", props["MOVIES_DB_API_KEY"].toString())
+    }
+}
+
 android {
     compileSdk = 33
     namespace = "com.jflavio.layeredarch.android"
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
     }
 
-    val props = Properties()
-    file("keys.properties").inputStream().use {
-        props.load(it)
-    }
 
     buildFeatures {
         buildConfig = true
@@ -125,13 +137,13 @@ android {
         // https://cs.android.com/android-studio/platform/tools/base/+/0bc1c23297760643b03e8cfd8acc52c007a99cd6
     }
 
-    buildTypes {
-        debug {
-            buildConfigField("String", "MOVIES_DB_API_KEY", "\"${props["MOVIES_DB_API_KEY"].toString()}\"")
-        }
-        release {
-            buildConfigField("String", "MOVIES_DB_API_KEY", "\"${props["MOVIES_DB_API_KEY"].toString()}\"")
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 
 }

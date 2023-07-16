@@ -13,6 +13,7 @@ pluginManagement {
         val kotlinVersion = extra["kotlin.version"] as String
         val agpVersion = extra["agp.version"] as String
         val composeVersion = extra["compose.version"] as String
+        val buildKonfigVersion = extra["buildKonfig.version"] as String
 
         kotlin("jvm").version(kotlinVersion)
         kotlin("multiplatform").version(kotlinVersion)
@@ -22,6 +23,8 @@ pluginManagement {
         id("com.android.library").version(agpVersion)
 
         id("org.jetbrains.compose").version(composeVersion)
+
+        id("com.codingfeline.buildkonfig").version(buildKonfigVersion)
     }
 
 }
@@ -36,6 +39,7 @@ dependencyResolutionManagement {
             this.url = java.net.URI.create("https://oss.sonatype.org/content/repositories/snapshots/")
         }
     }
+
 }
 
 rootProject.name = "Layered_Arch"
